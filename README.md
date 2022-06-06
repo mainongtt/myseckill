@@ -60,3 +60,5 @@ sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer
 关闭     
 sh ./bin/mqshutdown broker    
 sh ./bin/mqshutdown namesrv    
+
+详细见项目部署.pdf
