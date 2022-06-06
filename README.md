@@ -36,11 +36,11 @@ unzip rocketmq-all-4.8.0-bin-release.zip
 chmod -R 777 rocketmq-all-4.8.0-bin-release    
 配置    
 cd /root/rocketmq-all-4.8.0-bin-release    
-# ./bin/runserver.sh (82)    
+#./bin/runserver.sh (82)    
 -server Xms256m Xmx256m Xmn128m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m    
-# ./bin/runbroker.sh (67)    
+#./bin/runbroker.sh (67)    
 -server Xms256m Xmx256m Xmn128m    
-# ./conf/broker.conf (追加)    
+#./conf/broker.conf (追加)    
 brokerIP1 = 139.9.119.64    
 autoCreateTopicEnable = true    
 
