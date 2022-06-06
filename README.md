@@ -45,10 +45,10 @@ brokerIP1 = 139.9.119.64
 autoCreateTopicEnable = true    
 
 启动     
-# namesrv     
+#namesrv     
 nohup sh ./bin/mqnamesrv -n localhost:9876 &    
 tail -f /root/logs/rocketmqlogs/namesrv.log    
-# broker     
+#broker     
 nohup sh ./bin/mqbroker -n localhost:9876 -c ./conf/broker.conf &     
 tail -f /root/logs/rocketmqlogs/broker.log    
 
