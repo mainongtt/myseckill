@@ -20,44 +20,43 @@
 3.订单功能.md
 ## 项目部署
 ### 1.redis安装
-yum list redis* 
-yum install redis.x86_64 
-vim /etc/redis.conf 
-:set nu 
-启动:redis-server /etc/redis.conf 
-redis-cli -a nowcoder123 
-whereis redis-cli 
-查看进程号： ps -ef|grep redis 
-cp /usr/bin/redis-cli /usr/local/bin/
+yum list redis*     
+yum install redis.x86_64     
+vim /etc/redis.conf     
+:set nu      
+启动:redis-server /etc/redis.conf      
+redis-cli -a nowcoder123     
+whereis redis-cli     
+查看进程号： ps -ef|grep redis     
+cp /usr/bin/redis-cli /usr/local/bin/    
 ### 2.RockedMq安装
-安装
-wget https://mirror-hk.koddos.net/apache/rocketmq/4.8.0/rocketmq-all-4.8.0-bin-release.zip
-unzip rocketmq-all-4.8.0-bin-release.zip
-chmod -R 777 rocketmq-all-4.8.0-bin-release
+安装    
+wget https://mirror-hk.koddos.net/apache/rocketmq/4.8.0/rocketmq-all-4.8.0-bin-release.zip    
+unzip rocketmq-all-4.8.0-bin-release.zip    
+chmod -R 777 rocketmq-all-4.8.0-bin-release    
+配置    
+cd /root/rocketmq-all-4.8.0-bin-release    
+# ./bin/runserver.sh (82)    
+-server Xms256m Xmx256m Xmn128m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m    
+# ./bin/runbroker.sh (67)    
+-server Xms256m Xmx256m Xmn128m    
+# ./conf/broker.conf (追加)    
+brokerIP1 = 139.9.119.64    
+autoCreateTopicEnable = true    
 
- 配置
-cd /root/rocketmq-all-4.8.0-bin-release
-# ./bin/runserver.sh (82)
--server Xms256m Xmx256m Xmn128m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m
-# ./bin/runbroker.sh (67)
--server Xms256m Xmx256m Xmn128m
-# ./conf/broker.conf (追加)
-brokerIP1 = 139.9.119.64
-autoCreateTopicEnable = true
+启动     
+# namesrv     
+nohup sh ./bin/mqnamesrv -n localhost:9876 &    
+tail -f /root/logs/rocketmqlogs/namesrv.log    
+# broker     
+nohup sh ./bin/mqbroker -n localhost:9876 -c ./conf/broker.conf &     
+tail -f /root/logs/rocketmqlogs/broker.log    
 
-启动
-# namesrv
-nohup sh ./bin/mqnamesrv -n localhost:9876 &
-tail -f /root/logs/rocketmqlogs/namesrv.log
-# broker
-nohup sh ./bin/mqbroker -n localhost:9876 -c ./conf/broker.conf &
-tail -f /root/logs/rocketmqlogs/broker.log
+测试    
+export NAMESRV_ADDR=localhost:9876    
+sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer    
+sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer    
 
-测试
-export NAMESRV_ADDR=localhost:9876
-sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer
-sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer
-
-关闭
-sh ./bin/mqshutdown broker
-sh ./bin/mqshutdown namesrv
+关闭     
+sh ./bin/mqshutdown broker    
+sh ./bin/mqshutdown namesrv    
